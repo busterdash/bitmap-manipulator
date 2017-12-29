@@ -24,7 +24,7 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=
+Folders=basic-bitmap-fileio
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
@@ -61,9 +61,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=windows_bitmap.cpp
+FileName=basic-bitmap-fileio\binary_rw.cpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -71,9 +71,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit3]
-FileName=device_independent_bitmap.cpp
+FileName=basic-bitmap-fileio\binary_rw.hpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -81,9 +81,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit4]
-FileName=raster_image.cpp
+FileName=basic-bitmap-fileio\device_independent_bitmap.cpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -91,9 +91,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=device_independent_bitmap.hpp
+FileName=basic-bitmap-fileio\device_independent_bitmap.hpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -101,9 +101,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=raster_image.hpp
+FileName=basic-bitmap-fileio\raster_image.cpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -111,9 +111,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=windows_bitmap.hpp
+FileName=basic-bitmap-fileio\raster_image.hpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -121,9 +121,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=binary_rw.cpp
+FileName=basic-bitmap-fileio\windows_bitmap.cpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
@@ -131,9 +131,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=binary_rw.hpp
+FileName=basic-bitmap-fileio\windows_bitmap.hpp
 CompileCpp=1
-Folder=
+Folder=basic-bitmap-fileio
 Compile=1
 Link=1
 Priority=1000
