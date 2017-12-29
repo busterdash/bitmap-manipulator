@@ -3,8 +3,8 @@ Apply mathematical operations on images. An usage example of my bitmap library.
 
 ## Cloning
 ```
-git clone https://github.com/busterdash/sunlight-machine
-cd sunlight-machine
+git clone https://github.com/busterdash/bitmap-manipulator
+cd bitmap-manipulator
 git submodule update --init
 ```
 
