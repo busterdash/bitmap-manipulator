@@ -4,22 +4,24 @@ using namespace std;
 
 int main(int argument_count, char* argument_value[])
 {
-	windows_bitmap* wb = new windows_bitmap("modified.bmp", 128, 128);
-	read::status rs = wb->import("reference.bmp");
+	string in_file = "reference.bmp";
+	string out_file = "modified.bmp";
+	windows_bitmap* wb = new windows_bitmap(out_file, 128, 128);
+	read::status rs = wb->import(in_file);
 	
 	switch (rs)
 	{
 		case read::success:
-			cout << "SUCCESSFUL IMPORT" << endl;
+			cout << "Successfully imported " << in_file << endl;
 			break;
 		case read::bad_filename:
-			cout << "BAD FILENAME" << endl;
+			cout << "ERROR: Could not find " << in_file << '!' << endl;
 			break;
 		case read::bad_header:
-			cout << "BAD HEADER" << endl;
+			cout << "ERROR: Input file does not have correct file header!" << endl;
 			break;
 		case read::bad_file_dimensions:
-			cout << "BAD FILE DIMENSIONS" << endl;
+			cout << "ERROR: File is of unexpected file dimensions!" << endl;
 			break;
 	}
 	
@@ -61,8 +63,8 @@ int main(int argument_count, char* argument_value[])
 		}
 	}
 	
+	cout << "Operation performed, image saved as " << out_file << endl;
 	wb->save();
-	
 	delete wb;
 	return 0;
 }
