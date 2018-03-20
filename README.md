@@ -10,7 +10,7 @@ git submodule update --init
 
 ## Compiling
 * For simplicity, use Orwell Dev-C++ to compile on Windows.
-* I will provide a makefile in the future.
+* On Linux, a makefile is provided for compiling with the GNU C++ Compiler. 
 
 ## Submodule(s)
 
