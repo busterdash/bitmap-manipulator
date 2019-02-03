@@ -1,5 +1,27 @@
+/*==============================================================================================
+	
+	main.cpp
+	Copyright 2018 Buster Schrader
+	
+	This file is part of Bitmap Manipulator.
+	
+	Bitmap Manipulator is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	any later version.
+	
+	Bitmap Manipulator is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with Bitmap Manipulator.  If not, see <https://www.gnu.org/licenses/>.
+	
+==============================================================================================*/
+
 #include <iostream>
-#include "basic-bitmap-fileio/windows_bitmap.hpp"
+#include "bitmap-machine/windows_bitmap.hpp"
 using namespace std;
 
 int main(int argument_count, char* argument_value[])
