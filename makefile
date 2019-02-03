@@ -1,7 +1,7 @@
-BM_DIR = basic-bitmap-fileio
+BM_DIR = bitmap-machine
 include $(BM_DIR)/make_sm_vars
 OBJECTS = main.o $(BM_OBJECTS)
-TARGET = bitman.exe
+TARGET = bitman
 CPP = g++
 
 all: $(TARGET)
