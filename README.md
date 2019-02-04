@@ -15,7 +15,7 @@ git submodule update --init
 ## Submodule(s)
 
 ### Bitmap FileIO:
-* Submodule can be read about here: https://github.com/busterdash/basic-bitmap-fileio
+* Submodule can be read about here: https://github.com/busterdash/bitmap-machine
 * Writes windows bitmaps of type ```BITMAPINFOHEADER```.
 * Images compatible with Windows 3.1 and above.
 
