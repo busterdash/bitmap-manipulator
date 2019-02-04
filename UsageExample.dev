@@ -24,7 +24,7 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=basic-bitmap-fileio
+Folders=bitmap-machine
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
@@ -61,9 +61,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=basic-bitmap-fileio\binary_rw.cpp
+FileName=bitmap-machine\binary_rw.cpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -71,9 +71,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit3]
-FileName=basic-bitmap-fileio\binary_rw.hpp
+FileName=bitmap-machine\binary_rw.hpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -81,9 +81,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit4]
-FileName=basic-bitmap-fileio\device_independent_bitmap.cpp
+FileName=bitmap-machine\device_independent_bitmap.cpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -91,9 +91,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=basic-bitmap-fileio\device_independent_bitmap.hpp
+FileName=bitmap-machine\device_independent_bitmap.hpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -101,9 +101,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=basic-bitmap-fileio\raster_image.cpp
+FileName=bitmap-machine\raster_image.cpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -111,9 +111,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=basic-bitmap-fileio\raster_image.hpp
+FileName=bitmap-machine\raster_image.hpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -121,9 +121,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=basic-bitmap-fileio\windows_bitmap.cpp
+FileName=bitmap-machine\windows_bitmap.cpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
@@ -131,9 +131,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=basic-bitmap-fileio\windows_bitmap.hpp
+FileName=bitmap-machine\windows_bitmap.hpp
 CompileCpp=1
-Folder=basic-bitmap-fileio
+Folder=bitmap-machine
 Compile=1
 Link=1
 Priority=1000
