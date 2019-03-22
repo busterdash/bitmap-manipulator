@@ -25,6 +25,77 @@
 #include "bitmap-machine/windows_bitmap.hpp"
 using namespace std;
 
+color string_to_color(string str)
+{
+	color out = 0x000000;
+	int strlen = str.length();
+	int i = 0;
+	
+	if (strlen == 6 or strlen == 7)
+	{
+		if (str[i] == '$' or str[i] == '#')
+			i++;
+		
+		while (i < strlen)
+		{
+			out = out << 4;
+			
+			if (str[i] >= '0' and str[i] <= '9')
+				out = out | ((str[i] - '0') & 15);
+			else if (str[i] >= 'A' and str[i] <= 'F')
+				out = out | ((str[i] - 'A' + 10) & 15);
+			else if (str[i] >= 'a' and str[i] <= 'f')
+				out = out | ((str[i] - 'a' + 10) & 15);
+			
+			i++;
+		}
+	}
+	
+	return out;
+}
+
+void perform_addition(device_independent_bitmap* dib, color color_to_add)
+{
+	color_component* img_red = dib->get_image()->get_image_red_array();
+	color_component* img_green = dib->get_image()->get_image_green_array();
+	color_component* img_blue = dib->get_image()->get_image_blue_array();
+	unsigned int w = dib->get_image_width();
+	unsigned int h = dib->get_image_height();
+	unsigned int len = w * h;
+	
+	for (unsigned int i = 0; i < len; i++)
+	{
+		int buffer;
+		buffer = (int)img_red[i] + (int)((color_to_add >> 16) & 255);
+		img_red[i] = buffer < 256 ? buffer : 255;
+		buffer = (int)img_green[i] + (int)((color_to_add >> 8) & 255);
+		img_green[i] = buffer < 256 ? buffer : 255;
+		buffer = (int)img_blue[i] + (int)(color_to_add & 255);
+		img_blue[i] = buffer < 256 ? buffer : 255;
+	}
+}
+
+void perform_subtraction(device_independent_bitmap* dib, color color_to_sub)
+{
+	color_component* img_red = dib->get_image()->get_image_red_array();
+	color_component* img_green = dib->get_image()->get_image_green_array();
+	color_component* img_blue = dib->get_image()->get_image_blue_array();
+	unsigned int w = dib->get_image_width();
+	unsigned int h = dib->get_image_height();
+	unsigned int len = w * h;
+	
+	for (unsigned int i = 0; i < len; i++)
+	{
+		int buffer;
+		buffer = (int)img_red[i] - (int)((color_to_sub >> 16) & 255);
+		img_red[i] = buffer > 0 ? buffer : 0;
+		buffer = (int)img_green[i] - (int)((color_to_sub >> 8) & 255);
+		img_green[i] = buffer > 0 ? buffer : 0;
+		buffer = (int)img_blue[i] - (int)(color_to_sub & 255);
+		img_blue[i] = buffer > 0 ? buffer : 0;
+	}
+}
+
 void perform_negative(device_independent_bitmap* dib, int mask)
 {
 	color_component* img_red = dib->get_image()->get_image_red_array();
@@ -127,17 +198,63 @@ int main(int argument_count, char* argument_value[])
 	cout << "T\t(Image Threshold) Follow with a number between" << endl;
 	cout << "\t0 and 6 inclusively to specify what brightness" << endl;
 	cout << "\tshould decide which color to clamp the pixel to." << endl << endl;
+	cout << "A\t(Addition) Follow with a 24-bit hex value in" << endl;
+	cout << "\tparenthesis as color to be added to each pixel." << endl << endl;
+	cout << "S\t(Subtraction) Follow with a 24-bit hex value in" << endl;
+	cout << "\tparenthesis as color to be subtracted from each pixel." << endl << endl;
+	cout << "______________________________________________________________" << endl;
 	
 	getline(cin,work_order);
 	cout << endl;
 	
 	unsigned int i = 0;
 	bool has_param = false;
+	bool is_long_param = false;
+	char lp_wo_buffer = '\0'; //Long param work order buffer.
+	string long_param = "";
+	
 	while(i < work_order.length()) //Go through input string.
 	{
-		//This boolean represents whether or not the following char is an argument.
-		has_param = (i < work_order.length()-1 and
-					((int)work_order[i+1] > 47 and (int)work_order[i+1] <= 57));
+		if (i < work_order.length()-1)
+		{
+			//Find and prepare for long parameters.
+			if (work_order[i+1] == '(')
+			{
+				is_long_param = true;
+				lp_wo_buffer = work_order[i];
+				i++;
+				continue;
+			}
+			
+			//This boolean represents whether or not the following char is an argument.
+			has_param = ((int)work_order[i+1] > 47 and (int)work_order[i+1] <= 57) or is_long_param;
+		}
+		
+		if (is_long_param)
+		{
+			if (work_order[i] != ')')
+			{
+				if (i < work_order.length()-1)
+				{
+					if (work_order[i] == '(')
+					{
+						i++;
+						continue;
+					}
+				}
+				else
+				{
+					cout << "Long parameter not ended. Not performing any more operations." << endl;
+					break;
+				}
+				
+				long_param += work_order[i];
+				i++;
+				continue;
+			}
+			else
+				work_order[i] = lp_wo_buffer;
+		}
 		
 		switch(work_order[i])
 		{
@@ -155,13 +272,31 @@ int main(int argument_count, char* argument_value[])
 				else
 					perform_threshold(wb->get_dib(),127.0f);
 				break;
+			case 'A':
+			case 'a':
+				if (has_param && is_long_param)
+					perform_addition(wb->get_dib(),string_to_color(long_param));
+				else
+					perform_addition(wb->get_dib(),0x000000);
+				break;
+			case 'S':
+			case 's':
+				if (has_param && is_long_param)
+					perform_subtraction(wb->get_dib(),string_to_color(long_param));
+				else
+					perform_subtraction(wb->get_dib(),0x000000);
+				break;
 		}
 		
+		is_long_param = false;
+		long_param = "";
 		i++;
 	}
 	
-	cout << "Operation performed, image saved as " << out_file << endl;
+	
+	cout << "Image saved as " << out_file << endl;
 	wb->save();
 	delete wb;
+
 	return 0;
 }
