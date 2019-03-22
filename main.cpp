@@ -25,6 +25,7 @@
 #include "bitmap-machine/windows_bitmap.hpp"
 using namespace std;
 
+//Function converts strings like '$ffffff', '#ffffff', and 'ffffff' into RGB colors.
 color string_to_color(string str)
 {
 	color out = 0x000000;
@@ -201,6 +202,7 @@ void perform_seamless(device_independent_bitmap* dib)
 	}
 }
 
+//Function handles program arguments and performs work orders on images based on user-inputted instructions.
 int main(int argument_count, char* argument_value[])
 {
 	string in_file = "reference.bmp";
@@ -263,8 +265,9 @@ int main(int argument_count, char* argument_value[])
 			//Find and prepare for long parameters.
 			if (work_order[i+1] == '(')
 			{
-				is_long_param = true;
+				//Hold onto the operation we are going to do while we read in the long parameter.
 				lp_wo_buffer = work_order[i];
+				is_long_param = true;
 				i++;
 				continue;
 			}
@@ -275,10 +278,12 @@ int main(int argument_count, char* argument_value[])
 		
 		if (is_long_param)
 		{
-			if (work_order[i] != ')')
+			if (work_order[i] != ')') //Read until we hit this.
 			{
 				if (i < work_order.length()-1)
 				{
+					//When we find out were reading a long parameter, this is the first character we
+					//pull in. We don't care about it so we skip it.
 					if (work_order[i] == '(')
 					{
 						i++;
@@ -287,55 +292,56 @@ int main(int argument_count, char* argument_value[])
 				}
 				else
 				{
+					//A user forgot to end the long parameter with ')'; to avoid wrecking things, just quit.
 					cout << "Long parameter not ended. Not performing any more operations." << endl;
 					break;
 				}
 				
+				//Here we actually read the long parameter in.
 				long_param += work_order[i];
 				i++;
 				continue;
 			}
-			else
-				work_order[i] = lp_wo_buffer;
+			else //Done reading in the long parameter, set the ')' to our last operation so the switch below operates correctly.
+				work_order[i] = lp_wo_buffer; 
 		}
 		
 		switch(work_order[i])
 		{
 			case 'N':
 			case 'n':
-				if (has_param)
+				if (has_param) //Image negative, accept single digit between 0 and 7.
 					perform_negative(wb->get_dib(),(int)work_order[i+1]-48);
 				else
 					perform_negative(wb->get_dib(),7);
 				break;
 			case 'T':
 			case 't':
-				if (has_param)
+				if (has_param) //Image threshold, accept single digit between 0 and 6.
 					perform_threshold(wb->get_dib(),((int)work_order[i+1]-48)*42.5f);
 				else
 					perform_threshold(wb->get_dib(),127.0f);
 				break;
 			case 'A':
 			case 'a':
-				if (has_param && is_long_param)
+				if (has_param && is_long_param) //Addition, accept only long parameter as color value.
 					perform_addition(wb->get_dib(),string_to_color(long_param));
 				else
 					perform_addition(wb->get_dib(),0x000000);
 				break;
 			case 'S':
 			case 's':
-				if (has_param && is_long_param)
+				if (has_param && is_long_param) //Subtraction, accept only long parameter as color value.
 					perform_subtraction(wb->get_dib(),string_to_color(long_param));
 				else
 					perform_subtraction(wb->get_dib(),0x000000);
 				break;
 		}
 		
-		is_long_param = false;
+		is_long_param = false; //If we make it this far, an operation has been performed, so just reset. 
 		long_param = "";
 		i++;
 	}
-	
 	
 	cout << "Image saved as " << out_file << endl;
 	wb->save();
