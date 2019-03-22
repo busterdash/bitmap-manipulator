@@ -54,48 +54,6 @@ color string_to_color(string str)
 	return out;
 }
 
-void perform_addition(device_independent_bitmap* dib, color color_to_add)
-{
-	color_component* img_red = dib->get_image()->get_image_red_array();
-	color_component* img_green = dib->get_image()->get_image_green_array();
-	color_component* img_blue = dib->get_image()->get_image_blue_array();
-	unsigned int w = dib->get_image_width();
-	unsigned int h = dib->get_image_height();
-	unsigned int len = w * h;
-	
-	for (unsigned int i = 0; i < len; i++)
-	{
-		int buffer;
-		buffer = (int)img_red[i] + (int)((color_to_add >> 16) & 255);
-		img_red[i] = buffer < 256 ? buffer : 255;
-		buffer = (int)img_green[i] + (int)((color_to_add >> 8) & 255);
-		img_green[i] = buffer < 256 ? buffer : 255;
-		buffer = (int)img_blue[i] + (int)(color_to_add & 255);
-		img_blue[i] = buffer < 256 ? buffer : 255;
-	}
-}
-
-void perform_subtraction(device_independent_bitmap* dib, color color_to_sub)
-{
-	color_component* img_red = dib->get_image()->get_image_red_array();
-	color_component* img_green = dib->get_image()->get_image_green_array();
-	color_component* img_blue = dib->get_image()->get_image_blue_array();
-	unsigned int w = dib->get_image_width();
-	unsigned int h = dib->get_image_height();
-	unsigned int len = w * h;
-	
-	for (unsigned int i = 0; i < len; i++)
-	{
-		int buffer;
-		buffer = (int)img_red[i] - (int)((color_to_sub >> 16) & 255);
-		img_red[i] = buffer > 0 ? buffer : 0;
-		buffer = (int)img_green[i] - (int)((color_to_sub >> 8) & 255);
-		img_green[i] = buffer > 0 ? buffer : 0;
-		buffer = (int)img_blue[i] - (int)(color_to_sub & 255);
-		img_blue[i] = buffer > 0 ? buffer : 0;
-	}
-}
-
 void perform_negative(device_independent_bitmap* dib, int mask)
 {
 	color_component* img_red = dib->get_image()->get_image_red_array();
@@ -155,6 +113,91 @@ void perform_threshold(device_independent_bitmap* dib, float apex)
 			img_green[i] = 0;
 			img_blue[i] = 0;
 		}
+	}
+}
+
+void perform_addition(device_independent_bitmap* dib, color color_to_add)
+{
+	color_component* img_red = dib->get_image()->get_image_red_array();
+	color_component* img_green = dib->get_image()->get_image_green_array();
+	color_component* img_blue = dib->get_image()->get_image_blue_array();
+	unsigned int w = dib->get_image_width();
+	unsigned int h = dib->get_image_height();
+	unsigned int len = w * h;
+	
+	for (unsigned int i = 0; i < len; i++)
+	{
+		int buffer;
+		buffer = (int)img_red[i] + (int)((color_to_add >> 16) & 255);
+		img_red[i] = buffer < 256 ? buffer : 255;
+		buffer = (int)img_green[i] + (int)((color_to_add >> 8) & 255);
+		img_green[i] = buffer < 256 ? buffer : 255;
+		buffer = (int)img_blue[i] + (int)(color_to_add & 255);
+		img_blue[i] = buffer < 256 ? buffer : 255;
+	}
+}
+
+void perform_subtraction(device_independent_bitmap* dib, color color_to_sub)
+{
+	color_component* img_red = dib->get_image()->get_image_red_array();
+	color_component* img_green = dib->get_image()->get_image_green_array();
+	color_component* img_blue = dib->get_image()->get_image_blue_array();
+	unsigned int w = dib->get_image_width();
+	unsigned int h = dib->get_image_height();
+	unsigned int len = w * h;
+	
+	for (unsigned int i = 0; i < len; i++)
+	{
+		int buffer;
+		buffer = (int)img_red[i] - (int)((color_to_sub >> 16) & 255);
+		img_red[i] = buffer > 0 ? buffer : 0;
+		buffer = (int)img_green[i] - (int)((color_to_sub >> 8) & 255);
+		img_green[i] = buffer > 0 ? buffer : 0;
+		buffer = (int)img_blue[i] - (int)(color_to_sub & 255);
+		img_blue[i] = buffer > 0 ? buffer : 0;
+	}
+}
+
+void perform_seamless(device_independent_bitmap* dib)
+{
+	color_component* img_red = dib->get_image()->get_image_red_array();
+	color_component* img_green = dib->get_image()->get_image_green_array();
+	color_component* img_blue = dib->get_image()->get_image_blue_array();
+	unsigned int w = dib->get_image_width();
+	unsigned int h = dib->get_image_height();
+	unsigned int len = w * h;
+	
+	//Only does horizontal seams right now.
+	//May want to lessen influence further from seam.
+	
+	for (unsigned int i = 0; i < h; i++)
+	{
+		int y = i * w;
+		int x = w - 1;
+		
+		img_red[y+x] = (img_red[y+x] + img_red[y]) / 2;
+		img_green[y+x] = (img_green[y+x] + img_green[y]) / 2;
+		img_blue[y+x] = (img_blue[y+x] + img_blue[y]) / 2;
+		
+		img_red[y+x-1] = (img_red[y+x-1] + img_red[y+x]) / 2;
+		img_green[y+x-1] = (img_green[y+x-1] + img_green[y+x]) / 2;
+		img_blue[y+x-1] = (img_blue[y+x-1] + img_blue[y+x]) / 2;
+		
+		img_red[y+x-2] = (img_red[y+x-2] + img_red[y+x-1]) / 2;
+		img_green[y+x-2] = (img_green[y+x-2] + img_green[y+x-1]) / 2;
+		img_blue[y+x-2] = (img_blue[y+x-2] + img_blue[y+x-1]) / 2;
+		
+		img_red[y+1] = (img_red[y+1] + img_red[y]) / 2;
+		img_green[y+1] = (img_green[y+1] + img_green[y]) / 2;
+		img_blue[y+1] = (img_blue[y+1] + img_blue[y]) / 2;
+		
+		img_red[y+2] = (img_red[y+2] + img_red[y+1]) / 2;
+		img_green[y+2] = (img_green[y+2] + img_green[y+1]) / 2;
+		img_blue[y+2] = (img_blue[y+2] + img_blue[y+1]) / 2;
+		
+		img_red[y+3] = (img_red[y+3] + img_red[y+2]) / 2;
+		img_green[y+3] = (img_green[y+3] + img_green[y+2]) / 2;
+		img_blue[y+3] = (img_blue[y+3] + img_blue[y+2]) / 2;
 	}
 }
 
