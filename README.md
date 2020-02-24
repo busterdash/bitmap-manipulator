@@ -15,21 +15,11 @@ A work order consists of one or more operations which are denoted by the first l
 
 As an example: N7A(#7f0000)T3 loads up the original image, performs the negative on all color channels, then performs the addition operation on the image. In this case it adds 127 to the pixels' red channel. Lastly, it performs the threshold operation on the image using a brightness in the very middle to decide whether the pixel should be fully black or white. 
 
-## Cloning
-```
-git clone https://github.com/busterdash/bitmap-manipulator
-cd bitmap-manipulator
-git submodule update --init
-```
-
 ## Compiling
 * For simplicity, I use Orwell Dev-C++ to compile on Windows.
 * On Linux, a makefile is provided for compiling with the GNU C++ Compiler. 
 
-## Submodule(s)
-
-### Bitmap FileIO:
-* Submodule can be read about here: https://github.com/busterdash/bitmap-machine
+### The Bitmap Machine:
 * Writes windows bitmaps of type ```BITMAPINFOHEADER```.
 * Images compatible with Windows 3.1 and above.
 
