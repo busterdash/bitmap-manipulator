@@ -1,0 +1,11 @@
+$(BM_DIR)/$(O_WB).o: $(BM_DIR)/$(O_WB).cpp
+	$(CPP) -c -o $(BM_DIR)/$(O_WB).o $(BM_DIR)/$(O_WB).cpp
+
+$(BM_DIR)/$(O_DIB).o: $(BM_DIR)/$(O_DIB).cpp
+	$(CPP) -c -o $(BM_DIR)/$(O_DIB).o $(BM_DIR)/$(O_DIB).cpp
+
+$(BM_DIR)/$(O_RI).o: $(BM_DIR)/$(O_RI).cpp
+	$(CPP) -c -o $(BM_DIR)/$(O_RI).o $(BM_DIR)/$(O_RI).cpp
+
+$(BM_DIR)/$(O_BRW).o: $(BM_DIR)/$(O_BRW).cpp
+	$(CPP) -c -o $(BM_DIR)/$(O_BRW).o $(BM_DIR)/$(O_BRW).cpp

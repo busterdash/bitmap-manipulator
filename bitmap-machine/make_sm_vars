@@ -1,0 +1,9 @@
+O_WB = windows_bitmap
+O_DIB = device_independent_bitmap
+O_RI = raster_image
+O_BRW = binary_rw
+
+BM_OBJECTS = $(BM_DIR)/$(O_WB).o \
+	$(BM_DIR)/$(O_DIB).o \
+	$(BM_DIR)/$(O_RI).o \
+	$(BM_DIR)/$(O_BRW).o
